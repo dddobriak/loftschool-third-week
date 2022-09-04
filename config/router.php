@@ -11,6 +11,8 @@ $router->get('/auth', 'App\Controllers\Auth@create');
 $router->post('/login', 'App\Controllers\Auth@login');
 $router->post('/register', 'App\Controllers\Auth@register');
 $router->post('/logout', 'App\Controllers\Auth@logout');
+$router->get('/create', 'App\Controllers\Migrate@create');
+$router->get('/remove', 'App\Controllers\Migrate@remove');
 
 // Define 404
 $router->set404(function () {

@@ -1,7 +1,10 @@
 <?php
 
+// Require global constants
+require_once __DIR__ . '/constants.php';
+
 // Require composer autoloader
-require __DIR__ . '../../vendor/autoload.php';
+require_once ROOT . '/vendor/autoload.php';
 
 // Require router instance
-require __DIR__ . '/router.php';
+require_once ROOT . '/config/router.php';
