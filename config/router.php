@@ -6,13 +6,16 @@ use Bramus\Router\Router;
 $router = new Router();
 
 // Define routes
-$router->get('/', 'App\Controllers\Blog@create');
-$router->get('/auth', 'App\Controllers\Auth@create');
-$router->post('/login', 'App\Controllers\Auth@login');
-$router->post('/register', 'App\Controllers\Auth@register');
-$router->post('/logout', 'App\Controllers\Auth@logout');
-$router->get('/create', 'App\Controllers\Migrate@create');
-$router->get('/remove', 'App\Controllers\Migrate@remove');
+$router->get('/', 'App\Controllers\BlogController@create');
+$router->get('/auth', 'App\Controllers\AuthController@create');
+$router->post('/login', 'App\Controllers\AuthController@login');
+$router->post('/register', 'App\Controllers\AuthController@register');
+$router->post('/logout', 'App\Controllers\AuthController@logout');
+$router->post('/addpost', 'App\Controllers\BlogController@addPost');
+
+// Temporary servce routers
+$router->get('/createtables', 'App\Controllers\MigrateController@create');
+$router->get('/removetables', 'App\Controllers\MigrateController@remove');
 
 // Define 404
 $router->set404(function () {
