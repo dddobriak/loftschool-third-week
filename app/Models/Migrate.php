@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\DbConnect;
-
 class Migrate
 {
     public static function db()
@@ -33,11 +31,12 @@ class Migrate
         self::db()->dbh()
             ->query(
                 "CREATE TABLE IF NOT EXISTS `posts` (
-                    `id` bigint(20) NOT NULL AUTO_INCREMENT,
-                    `title` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                    `text` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                    PRIMARY KEY (`id`)
-                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;"
+                `id` bigint(20) NOT NULL AUTO_INCREMENT,
+                `title` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                `text` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                `user_id` bigint(20) DEFAULT NULL,
+                PRIMARY KEY (`id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;"
             );
 
         return setMessage('posts table created');
@@ -46,9 +45,7 @@ class Migrate
     public static function dropUsersTable()
     {
         self::db()->dbh()
-            ->query(
-                "DROP TABLE IF EXISTS `users`"
-            );
+            ->query("DROP TABLE IF EXISTS `users`");
 
         return setMessage('users table removed');
     }
@@ -56,9 +53,7 @@ class Migrate
     public static function dropPostsTable()
     {
         self::db()->dbh()
-            ->query(
-                "DROP TABLE IF EXISTS `posts`"
-            );
+            ->query("DROP TABLE IF EXISTS `posts`");
 
         return setMessage('posts table removed');
     }

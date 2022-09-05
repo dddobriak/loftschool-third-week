@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use PDO;
-use App\Models\DbConnect;
 
 class User
 {
@@ -21,7 +20,6 @@ class User
             ");
 
         $prepare->execute($user);
-
         $insertId = self::db()->dbh()->lastInsertId();
         $userData = implode(' ', self::getById($insertId));
 
@@ -32,7 +30,6 @@ class User
     {
         $prepare = self::db()->dbh()
             ->prepare("select * from users where id = ?");
-
         $prepare->execute([$id]);
 
         return $prepare->fetch(PDO::FETCH_ASSOC);
@@ -42,7 +39,6 @@ class User
     {
         $prepare = self::db()->dbh()
             ->prepare("select * from users where email = ?");
-
         $prepare->execute([$email]);
 
         return $prepare->fetch(PDO::FETCH_ASSOC);
@@ -54,7 +50,6 @@ class User
 
         $prepare = self::db()->dbh()
             ->prepare("delete from users where id = ?");
-
         $prepare->execute([$id]);
 
         return setMessage("user {$userData} deleted");
@@ -64,7 +59,6 @@ class User
     {
         $prepare = self::db()->dbh()
             ->prepare("select * from users where email = :email and password = :password");
-
         $prepare->execute($user);
 
         return $prepare->fetch(PDO::FETCH_ASSOC);
@@ -74,7 +68,6 @@ class User
     {
         $prepare = self::db()->dbh()
             ->prepare("select * from users where email = ? and is_admin = 1");
-
         $prepare->execute([$_SESSION['email']]);
 
         return $prepare->fetch(PDO::FETCH_ASSOC)['is_admin'];

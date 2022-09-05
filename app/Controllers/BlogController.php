@@ -38,4 +38,20 @@ class BlogController
         Post::delete($_POST['post']);
         return header('Location: /');
     }
+
+    public function api()
+    {
+        header('Content-Type: application/json; charset=utf-8');
+
+        if (isset($_GET['user_id'])) {
+            $posts = Post::getByUser((int) $_GET['user_id']);
+
+            if ($posts) {
+                echo json_encode($posts, JSON_PRETTY_PRINT);
+                return;
+            }
+        }
+
+        echo 'empty data';
+    }
 }

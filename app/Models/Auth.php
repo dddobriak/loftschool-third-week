@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\DbConnect;
-
 class Auth
 {
     public static function db()
@@ -13,9 +11,7 @@ class Auth
 
     public static function check($post)
     {
-        if (User::getByEmail($post['email'])) {
-            return true;
-        }
+        return User::getByEmail($post['email']) ?? false;
     }
 
     public static function loginUser($post)

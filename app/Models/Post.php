@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use PDO;
-use App\Models\DbConnect;
 
 class Post
 {
@@ -16,12 +15,12 @@ class Post
     {
         $prepare = self::db()->dbh()
             ->prepare("
-                insert into posts (`title`, `text`)
-                values (:title, :text)
+                insert into posts (`title`, `text`, `user_id`)
+                values (:title, :text, :user_id)
             ");
 
+        $post['user_id'] = Auth::check($_SESSION)['id'];
         $prepare->execute($post);
-
         $insertId = self::db()->dbh()->lastInsertId();
 
         return setMessage("post: {$insertId} created");
@@ -38,10 +37,8 @@ class Post
     public static function delete($id)
     {
         $postData = self::getById($id) ? $id : 'not found';
-
         $prepare = self::db()->dbh()
             ->prepare("delete from posts where id = ?");
-
         $prepare->execute([$id]);
 
         return setMessage("post {$postData} deleted");
@@ -51,9 +48,17 @@ class Post
     {
         $prepare = self::db()->dbh()
             ->prepare("select * from posts where id = ?");
-
         $prepare->execute([$id]);
 
-        return $prepare->fetch(PDO::FETCH_ASSOC);
+        return $prepare->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function getByUser($id)
+    {
+        $prepare = self::db()->dbh()
+            ->prepare("select * from posts where user_id = ?");
+        $prepare->execute([$id]);
+
+        return $prepare->fetchAll(PDO::FETCH_ASSOC);
     }
 }

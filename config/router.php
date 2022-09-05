@@ -13,6 +13,7 @@ $router->post('/register', 'App\Controllers\AuthController@register');
 $router->post('/logout', 'App\Controllers\AuthController@logout');
 $router->post('/addpost', 'App\Controllers\BlogController@addPost');
 $router->post('/deletepost', 'App\Controllers\BlogController@delete');
+$router->get('/api', 'App\Controllers\BlogController@api');
 
 // Temporary servce routers
 $router->get('/createtables', 'App\Controllers\MigrateController@create');
