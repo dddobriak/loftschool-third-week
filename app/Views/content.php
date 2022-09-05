@@ -21,8 +21,7 @@ if ($atts['posts']) {
 
         if ($atts['isAdmin']) {
             echo "<form action='deletepost' method='POST'>
-                    <button name='post' value='{$post['id']}'>Delete</button>
-                </form>";
+                <button name='post' value='{$post['id']}'>Delete</button></form>";
         }
     }
 }
