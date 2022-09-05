@@ -4,6 +4,11 @@ namespace App\Models;
 
 class Migrate
 {
+    /**
+     * Init db instance
+     *
+     * @return DbConnect
+     */
     public static function db()
     {
         return DbConnect::getInstance();

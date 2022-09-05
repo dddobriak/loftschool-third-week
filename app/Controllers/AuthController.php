@@ -3,9 +3,16 @@
 namespace App\Controllers;
 
 use App\Models\Auth;
+use PDOException;
 
 class AuthController
 {
+    /**
+     * Create auth view if user isn't authenticated
+     *
+     * @return void
+     * @throws PDOException
+     */
     public static function create()
     {
         if (!Auth::check($_SESSION)) {
@@ -15,6 +22,12 @@ class AuthController
         return header('Location: /');
     }
 
+    /**
+     * Check if user exists and create user session
+     *
+     * @return void
+     * @throws PDOException
+     */
     public static function login()
     {
         if (Auth::check($_POST) && Auth::loginUser($_POST)) {
@@ -28,6 +41,12 @@ class AuthController
         return header('Location: /auth');
     }
 
+    /**
+     * Create new user
+     *
+     * @return void
+     * @throws PDOException
+     */
     public static function register()
     {
         if (Auth::check($_POST)) {
@@ -47,6 +66,7 @@ class AuthController
 
     public static function logout()
     {
+        // to do
         echo 'logout';
     }
 }

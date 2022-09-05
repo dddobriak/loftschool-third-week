@@ -2,35 +2,63 @@
 
 namespace App\Models;
 
+use PDOException;
+
 class Auth
 {
+    /**
+     * Init db instance
+     *
+     * @return DbConnect
+     */
     public static function db()
     {
         return DbConnect::getInstance();
     }
 
-    public static function check($post)
+    /**
+     * Check if user exists by email
+     *
+     * @param array $user
+     * @return mixed
+     * @throws PDOException
+     */
+    public static function check($user)
     {
-        return User::getByEmail($post['email']) ?? false;
+        return User::getByEmail($user['email']) ?? false;
     }
 
-    public static function loginUser($post)
+    /**
+     * Set user session
+     *
+     * @param mixed $user
+     * @return true|void
+     * @throws PDOException
+     */
+    public static function loginUser($user)
     {
-        $post['password'] = sha1($post['password']);
+        $user['password'] = sha1($user['password']);
 
-        if (User::canLogin($post)) {
-            setAuthSession($post['email']);
+        if (User::canLogin($user)) {
+            setAuthSession($user['email']);
 
             return true;
         }
     }
 
-    public static function createUser($post)
+    /**
+     * Create new user
+     *
+     * @param array $user
+     * @return true|void
+     * @throws PDOException
+     */
+    public static function createUser($user)
     {
-        if ($post['name'] && $post['email'] && $post['password']) {
-            $post['password'] = sha1($post['password']);
-            User::create($post);
-            setAuthSession($post['email']);
+        if ($user['name'] && $user['email'] && $user['password']) {
+            $user['password'] = sha1($user['password']);
+            User::create($user);
+            setAuthSession($user['email']);
 
             return true;
         }
@@ -38,6 +66,7 @@ class Auth
 
     public static function logoutUser()
     {
+        // to do
         return setMessage('You are logged out');
     }
 }

@@ -5,9 +5,16 @@ namespace App\Controllers;
 use App\Models\Auth;
 use App\Models\Post;
 use App\Models\User;
+use PDOException;
 
 class BlogController
 {
+    /**
+     * Create blog view if user authenticated
+     *
+     * @return void
+     * @throws PDOException
+     */
     public function create()
     {
         if (Auth::check($_SESSION)) {
@@ -20,6 +27,12 @@ class BlogController
         return header('Location: /auth');
     }
 
+    /**
+     * Add new post
+     *
+     * @return void
+     * @throws PDOException
+     */
     public function addPost()
     {
         if (!($_POST['title'] && $_POST['text'])) {
@@ -33,12 +46,24 @@ class BlogController
         return header('Location: /');
     }
 
+    /**
+     * Delete post
+     *
+     * @return void
+     * @throws PDOException
+     */
     public function delete()
     {
         Post::delete($_POST['post']);
         return header('Location: /');
     }
 
+    /**
+     * Create api access point
+     *
+     * @return json|string
+     * @throws PDOException
+     */
     public function api()
     {
         header('Content-Type: application/json; charset=utf-8');

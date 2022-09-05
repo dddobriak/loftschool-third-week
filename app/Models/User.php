@@ -3,14 +3,27 @@
 namespace App\Models;
 
 use PDO;
+use PDOException;
 
 class User
 {
+    /**
+     * Init db instance
+     *
+     * @return DbConnect
+     */
     public static function db()
     {
         return DbConnect::getInstance();
     }
 
+    /**
+     * Create new user
+     *
+     * @param array $user
+     * @return void
+     * @throws PDOException
+     */
     public static function create($user)
     {
         $prepare = self::db()->dbh()
@@ -26,6 +39,13 @@ class User
         return setMessage("user: {$userData} created");
     }
 
+    /**
+     * Get user by user id
+     *
+     * @param int $id
+     * @return mixed
+     * @throws PDOException
+     */
     public static function getById($id)
     {
         $prepare = self::db()->dbh()
@@ -35,6 +55,13 @@ class User
         return $prepare->fetch(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Get user by user email
+     *
+     * @param string $email
+     * @return mixed
+     * @throws PDOException
+     */
     public static function getByEmail($email)
     {
         $prepare = self::db()->dbh()
@@ -44,6 +71,13 @@ class User
         return $prepare->fetch(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Delet user by user id
+     *
+     * @param int $id
+     * @return void
+     * @throws PDOException
+     */
     public static function delete($id)
     {
         $userData = self::getById($id) ? $id : 'not found';
@@ -55,6 +89,13 @@ class User
         return setMessage("user {$userData} deleted");
     }
 
+    /**
+     * Select user by user email and user password
+     *
+     * @param array $user
+     * @return mixed
+     * @throws PDOException
+     */
     public static function canLogin($user)
     {
         $prepare = self::db()->dbh()
@@ -64,6 +105,12 @@ class User
         return $prepare->fetch(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Check if user has admin role
+     *
+     * @return mixed
+     * @throws PDOException
+     */
     public static function isAdmin()
     {
         $prepare = self::db()->dbh()

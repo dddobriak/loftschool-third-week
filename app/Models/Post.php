@@ -3,14 +3,27 @@
 namespace App\Models;
 
 use PDO;
+use PDOException;
 
 class Post
 {
+    /**
+     * Init db instance
+     *
+     * @return DbConnect
+     */
     public static function db()
     {
         return DbConnect::getInstance();
     }
 
+    /**
+     * Create post
+     *
+     * @param array $post
+     * @return void
+     * @throws PDOException
+     */
     public static function create($post)
     {
         $prepare = self::db()->dbh()
@@ -26,6 +39,11 @@ class Post
         return setMessage("post: {$insertId} created");
     }
 
+    /**
+     * Read all posts
+     *
+     * @return array|false
+     */
     public static function read()
     {
         $query = self::db()->dbh()
@@ -34,6 +52,13 @@ class Post
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Delete psot
+     *
+     * @param int $id
+     * @return void
+     * @throws PDOException
+     */
     public static function delete($id)
     {
         $postData = self::getById($id) ? $id : 'not found';
@@ -44,6 +69,13 @@ class Post
         return setMessage("post {$postData} deleted");
     }
 
+    /**
+     * Get post by post id
+     *
+     * @param mixed $id
+     * @return array|false
+     * @throws PDOException
+     */
     public static function getById($id)
     {
         $prepare = self::db()->dbh()
@@ -53,6 +85,13 @@ class Post
         return $prepare->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Get post by user id
+     *
+     * @param mixed $id
+     * @return array|false
+     * @throws PDOException
+     */
     public static function getByUser($id)
     {
         $prepare = self::db()->dbh()
