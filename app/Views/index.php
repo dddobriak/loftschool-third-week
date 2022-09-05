@@ -2,5 +2,5 @@
 
 view('header');
 view('message');
-view('content');
+view('content', $atts);
 view('footer');

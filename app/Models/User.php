@@ -69,4 +69,14 @@ class User
 
         return $prepare->fetch(PDO::FETCH_ASSOC);
     }
+
+    public static function isAdmin()
+    {
+        $prepare = self::db()->dbh()
+            ->prepare("select * from users where email = ? and is_admin = 1");
+
+        $prepare->execute([$_SESSION['email']]);
+
+        return $prepare->fetch(PDO::FETCH_ASSOC)['is_admin'];
+    }
 }

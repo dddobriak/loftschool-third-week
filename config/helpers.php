@@ -1,6 +1,6 @@
 <?php
 
-function view($view)
+function view($view, $atts = false)
 {
     require_once ROOT . '/app/Views/' . $view . '.php';
 }

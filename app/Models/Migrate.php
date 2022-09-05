@@ -2,27 +2,35 @@
 
 namespace App\Models;
 
+use App\Models\DbConnect;
+
 class Migrate
 {
-    public static function createUsersTable($db)
+    public static function db()
     {
-        $db->dbh()
+        return DbConnect::getInstance();
+    }
+
+    public static function createUsersTable()
+    {
+        self::db()->dbh()
             ->query(
                 "CREATE TABLE IF NOT EXISTS `users` (
                 `id` bigint(20) NOT NULL AUTO_INCREMENT,
                 `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
                 `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                `password` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
                 `is_admin` tinyint DEFAULT NULL,
                 PRIMARY KEY (`id`)
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;"
             );
 
-        return message('users table created');
+        return setMessage('users table created');
     }
 
-    public static function createPostsTable($db)
+    public static function createPostsTable()
     {
-        $db->dbh()
+        self::db()->dbh()
             ->query(
                 "CREATE TABLE IF NOT EXISTS `posts` (
                     `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -32,26 +40,26 @@ class Migrate
                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;"
             );
 
-        return message('posts table created');
+        return setMessage('posts table created');
     }
 
-    public static function dropUsersTable($db)
+    public static function dropUsersTable()
     {
-        $db->dbh()
+        self::db()->dbh()
             ->query(
                 "DROP TABLE IF EXISTS `users`"
             );
 
-        return message('users table removed');
+        return setMessage('users table removed');
     }
 
-    public static function dropPostsTable($db)
+    public static function dropPostsTable()
     {
-        $db->dbh()
+        self::db()->dbh()
             ->query(
                 "DROP TABLE IF EXISTS `posts`"
             );
 
-        return message('posts table removed');
+        return setMessage('posts table removed');
     }
 }
